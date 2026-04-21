@@ -17,7 +17,7 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
-  base: '/skinweather-app/',skinweather-app
+  base: '/skinweather-app/', //I hope this works
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
