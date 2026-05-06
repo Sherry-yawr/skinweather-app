@@ -97,10 +97,11 @@ async function fetchTomorrowIO(
   const v = json.data.values;
 
   // Reverse-geocode location name using Open-Meteo geocoding (free, no key)
-  const geoRes = await fetch(
-    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
-  );
-  const geo = geoRes.ok ? await geoRes.json() : null;
+  const geoRes = await Promise.race([
+    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`),
+    new Promise<Response>((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000))
+  ]).catch(() => null);
+  const geo = geoRes && (geoRes as Response).ok ? await (geoRes as Response).json() : null;
   const location =
     geo?.address?.city ||
     geo?.address?.town ||
@@ -140,10 +141,11 @@ async function fetchOpenMeteo(lat: number, lng: number): Promise<WeatherData> {
   const json = await res.json();
   const c = json.current;
 
-  const geoRes = await fetch(
-    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
-  );
-  const geo = geoRes.ok ? await geoRes.json() : null;
+  const geoRes = await Promise.race([
+    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`),
+    new Promise<Response>((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000))
+  ]).catch(() => null);
+  const geo = geoRes && (geoRes as Response).ok ? await (geoRes as Response).json() : null;
   const location =
     geo?.address?.city ||
     geo?.address?.town ||
