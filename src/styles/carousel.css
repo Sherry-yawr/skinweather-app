@@ -1,0 +1,28 @@
+/* Slick Carousel Custom Styles */
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  font-size: 8px;
+  color: #9333ea;
+  opacity: 0.3;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 1;
+  color: #9333ea;
+}
+
+.slick-slide {
+  padding: 0 4px;
+}
+
+.slick-slide > div {
+  outline: none;
+}
+
+/* Hide arrows on single slide */
+.slick-slider.slick-single .slick-arrow {
+  display: none !important;
+}
